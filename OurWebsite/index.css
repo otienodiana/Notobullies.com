@@ -150,7 +150,7 @@ body, html {
   }
   
   .container {
-    padding: 0 16px;
+    padding:inherit
   }
   
   .container::after, .column::after {
