@@ -187,3 +187,9 @@ body, html {
   clear: both;
   display: table;
 }
+
+/*styling the contact form*/
+.my-image {
+  background-image:url(noooo.webp);
+}
+
