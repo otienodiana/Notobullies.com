@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum</title>
+    <style>
+        /* Basic styling, you can customize this */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .post {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .comment {
+            margin-left: 20px;
+            padding: 5px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            background-color: #f7f7f7;
+        }
+
+        .likes {
+            margin-top: 5px;
+            color: #999;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .popup {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Discusion Forum</h1>
+        <form id="postForm">
+            <textarea id="postContent" placeholder="Enter your post"></textarea>
+            <button type="submit">Post</button>
+        </form>
+        <div id="postList">
+            <!-- Existing posts will be displayed here -->
+        </div>
+
+        <div class="overlay" id="popupOverlay">
+            <div class="popup">
+                <span class="close" id="closePopup">&times;</span>
+                <h2>Be Nice and Friendly!</h2>
+                <p>Please remember to treat others with respect and kindness.</p>
+                <button id="closeButton">Got it!</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const postForm = document.getElementById('postForm');
+        const postContent = document.getElementById('postContent');
+        const postList = document.getElementById('postList');
+
+        postForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            if (postContent.value.trim() === '') {
+                alert('Please enter a post.');
+                return;
+            }
+            createPost(postContent.value);
+            postContent.value = '';
+        });
+
+        function createPost(content) {
+            const postElement = document.createElement('div');
+            postElement.classList.add('post');
+            postElement.innerText = content;
+            postList.appendChild(postElement);
+        }
+
+        function createPost(content) {
+            const postElement = document.createElement('div');
+            postElement.classList.add('post');
+            postElement.innerHTML = `
+                <p>${content}</p>
+                <button class="likeButton">Like</button>
+                <div class="likes">0 likes</div>
+                <div class="comments"></div>
+                <form class="commentForm">
+                    <textarea class="commentContent" placeholder="Add a comment"></textarea>
+                    <button type="submit">Comment</button>
+                </form>
+            `;
+
+            const likeButton = postElement.querySelector('.likeButton');
+            const likesDiv = postElement.querySelector('.likes');
+            let likes = 0;
+
+            likeButton.addEventListener('click', function () {
+                likes++;
+                likesDiv.textContent = `${likes} ${likes === 1 ? 'like' : 'likes'}`;
+            });
+
+            const commentForm = postElement.querySelector('.commentForm');
+            const commentContent = postElement.querySelector('.commentContent');
+            const commentsDiv = postElement.querySelector('.comments');
+
+            commentForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                if (commentContent.value.trim() === '') {
+                    alert('Please enter a comment.');
+                    return;
+                }
+                createComment(commentContent.value, commentsDiv);
+                commentContent.value = '';
+            });
+
+            postList.appendChild(postElement);
+        }
+
+        function createComment(comment, parentElement) {
+            const commentElement = document.createElement('div');
+            commentElement.classList.add('comment');
+            commentElement.textContent = comment;
+            parentElement.appendChild(commentElement);
+        }
+
+        const popupOverlay = document.getElementById('popupOverlay');
+        const closeButton = document.getElementById('closeButton');
+        const closePopup = document.getElementById('closePopup');
+
+        closeButton.addEventListener('click', () => {
+            popupOverlay.style.display = 'none';
+        });
+
+        closePopup.addEventListener('click', () => {
+            popupOverlay.style.display = 'none';
+        });
+
+        // Show the popup when the page loads
+        window.addEventListener('load', () => {
+            popupOverlay.style.display = 'flex';
+        });
+    </script>
+</body>
+
+</html>
